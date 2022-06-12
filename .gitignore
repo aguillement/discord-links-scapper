@@ -1,8 +1,8 @@
 # We don't need to upload anyone's database files.
-database/*
+database/*.db
 
 # We also don't need to upload anyone's log files.
-logs/*
+logs/*.log
 
 # We don't want to include any IDE configuration folders and files.
 .idea/
