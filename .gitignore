@@ -1,21 +1,27 @@
-# We want to set this to avoid any accidental leakage of our token(s).
-*.token.*
-*.token
+# We don't need to upload anyone's database files.
+database/*
 
-# We don't want to push our IDE configuration folder(s) to our repo.
+# We also don't need to upload anyone's log files.
+logs/*
+
+# We don't want to include any IDE configuration folders and files.
 .idea/
 .vscode/
-*.sw*
+.settings/
+.classpath
+.project
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
-# We also do not want to accidentally push any of the scraped data to our Github either.
-scrapes/
+# macOS really seems to love these...
+.DS_Store
+**/.DS_Store
 
-# We do not want to accidentally push any of the cached JSON data to our Github either.
-cached/
-
-# We don't want to push any precompiled Python files to be pushed either.
-module/__pycache__/
-module/*.pyc
-
-# Do not modify config.unmodified.json, instead copy it and name it "config.json" so that we don't accidentally push your config to your Github.
-config.json
+# And finally we don't want to upload any precompiled Python scripts
+**/__pycache__/
+**/*.pyc

@@ -1,2 +1,5 @@
-# Auto detect text files and perform LF normalization
+# We don't want our Python scripts to include any unwanted carriage returns.
+*.py text eol=lf
+
+# Everything else can be normalized based on how the OS handles EOLs.
 * text=auto
