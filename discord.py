@@ -114,10 +114,13 @@ def startGuild(scraper, guild, channel, day=None):
         
         # Read the response data.
         data = loads(response.read().decode('iso-8859-1'))
+
+        # Send to Discord with discord webhook
+        response = scraper.send_discord(data['messages'])
         
         # Get the number of posts.
         posts = data['total_results']
-        
+
         # Determine if we have multiple offsets.
         if (posts > 25):
             pages = int(posts / 25) + 1
@@ -183,7 +186,10 @@ def start(scraper, guild, channel, day=None):
         exit(0)
         
     # The smallest snowflake that Discord recognizes is from January 1, 2015.
-    while day > datetime(2015, 1, 1):
+    previous_day = datetime.today() - timedelta(days=1)
+    day = datetime.today()
+
+    while day > previous_day:
         day = startGuild(scraper, guild, channel, day)
 
 if __name__ == '__main__':
@@ -199,7 +205,6 @@ if __name__ == '__main__':
 
         # Iterate through the channels to scrape in the guild.
         for channel in channels:
-
             # Retrieve the datetime object for the most recent post in the channel.
             lastdate = getLastMessageGuild(discordscraper, guild, channel)
 

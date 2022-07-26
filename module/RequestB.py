@@ -100,6 +100,9 @@ class DiscordRequest(object):
             if header[0] == 'Retry-After':
                 print(header)
 
+        print(response.status)
+        print(urlpath)
+
         # Return the response if the connection was successful.
         if 199 < response.status < 300:
             return response
@@ -125,8 +128,8 @@ class DiscordRequest(object):
 
             if retry_after:   
                 # Sleep for 1 extra second as buffer
-                sleep(1 + retry_after)
-                return sendRequest(self, url)
+                sleep(6 + retry_after)
+                return self.sendRequest(url)
 
         # Return nothing to signify a failed request.
         return None

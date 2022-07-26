@@ -17,6 +17,11 @@ datetime.timedelta: Used to make the process of subtracting time much easier wit
 from datetime import datetime, timedelta
 
 """
+discord_webhook.DiscordWebhook: Used to access the DiscordWebhook class functions.
+"""
+from discord_webhook import DiscordWebhook
+
+"""
 mimetypes.MimeTypes: Used to access the MimeTypes class and its functions for quickly determining if a file extension is an image, video, or something else.
 """
 from mimetypes import MimeTypes
@@ -147,6 +152,9 @@ class DiscordScraper(object):
         # Generate a direct file path to the authorization token file.
         tokenfile = path.join(getcwd(), config.tokenfile)
 
+        # Retrieve webhook discord from config file.
+        self.discordWebhook = config.discordWebhookURL
+
         # Throw an error if the authorization token file doesn't exist.
         if not path.exists(tokenfile):
             error('Authorization token file can not be found at the following location: {0}'.format(tokenfile))
@@ -199,7 +207,7 @@ class DiscordScraper(object):
             videos = config.query['videos'],
             nsfw   = config.query['nsfw'  ]
         )
-    
+
     def grabGuildName(self, id, dm=None):
         """
         Send a request to retrieve the guild name by its ID.
@@ -313,6 +321,27 @@ class DiscordScraper(object):
             # Set the channel name class variable with the channel name.
             self.channelname = u'{0}_{1}'.format(id, channelname)
     
+    def send_discord(self, messages):
+        """ 
+        For each message in the messages array, send a discord webhook message 
+        :param messages: array of messages to send
+        """
+
+        # For each message in the messages array
+        for message in messages:
+            message = message[0]
+            content = message.get('content')
+
+            # If content is empty, get first file url        
+            if content == "":
+                content = message.get('attachments')[0].get('url')
+
+            # Create a new DiscordWebhook object
+            webhook = DiscordWebhook(url=self.discordWebhook, content=content)
+
+            # Send the webhook
+            webhook.execute()
+
     def createFolders(self):
         """
         Create the folder structure for the particular guild/DM and channels that we're wanting to scrape.
