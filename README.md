@@ -1,3 +1,8 @@
+# Discord scrape link and send to channel
+
+Base project from : https://github.com/Dracovian/Discord-Scraper
+
+
 ## Setup
 
 <details>
