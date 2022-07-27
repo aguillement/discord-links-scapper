@@ -342,8 +342,13 @@ class DiscordScraper(object):
 
             timestamp = message.get('timestamp')
             # Convert timestamp to datetime object
-            timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%S.%fZ')
-            timestamp = timestamp['hour'] + ':' + timestamp['minute'] + ':' + timestamp['second']
+            timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+            # Get hour minutes and seconds from timestamp
+            hour = timestamp.hour
+            minute = timestamp.minute
+            second = timestamp.second
+            timestamp = '{0}:{1}:{2}'.format(hour, minute, second)
 
             # Create a new DiscordEmbed object
             embed = DiscordEmbed(title=timestamp, description=content, color=0x00ff00)
