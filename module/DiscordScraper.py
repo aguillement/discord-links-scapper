@@ -338,7 +338,7 @@ class DiscordScraper(object):
                 content = message.get('attachments')[0].get('url')
 
             # Create a new DiscordWebhook object
-            webhook = DiscordWebhook(url=self.discordWebhook)
+            webhook = DiscordWebhook(url=self.discordWebhook, rate_limit_retry=True)
 
             timestamp = message.get('timestamp')
             # Convert timestamp to datetime object
@@ -353,10 +353,12 @@ class DiscordScraper(object):
             # Create a new DiscordEmbed object
             embed = DiscordEmbed(title=timestamp, description=content, color=0x00ff00)
 
+            # Create icon url
             author_id = message.get('author').get('id')
             avatar_id = message.get('author').get('avatar')
             icon_url = 'https://cdn.discordapp.com/avatars/{0}/{1}.png'.format(author_id, avatar_id)
 
+            # Add author to embed
             embed.set_author(name=message.get('author').get('username'), icon_url=icon_url)
 
             webhook.add_embed(embed)
