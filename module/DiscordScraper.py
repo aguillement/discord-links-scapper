@@ -17,9 +17,10 @@ datetime.timedelta: Used to make the process of subtracting time much easier wit
 from datetime import datetime, timedelta
 
 """
-discord_webhook.DiscordWebhook: Used to access the DiscordWebhook class functions.
+discord_webhooks.DiscordWebhook: Used to access the discord_webhooks.DiscordWebhook class and its functions.
+discord_webhooks.DiscordEmbed:   Used to access the discord_webhooks.DiscordEmbed class and its functions.
 """
-from discord_webhook import DiscordWebhook
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 """
 mimetypes.MimeTypes: Used to access the MimeTypes class and its functions for quickly determining if a file extension is an image, video, or something else.
@@ -337,7 +338,13 @@ class DiscordScraper(object):
                 content = message.get('attachments')[0].get('url')
 
             # Create a new DiscordWebhook object
-            webhook = DiscordWebhook(url=self.discordWebhook, content=content)
+            webhook = DiscordWebhook(url=self.discordWebhook)
+
+            # Create a new DiscordEmbed object
+            embed = DiscordEmbed(title=message.get('channel_id'), description=content, color=0x00ff00)
+            embed.set_author(name=message.get('author').get('username'), icon_url=message.get('author').get('avatar'))
+
+            webhook.add_embed(embed)
 
             # Send the webhook
             webhook.execute()
