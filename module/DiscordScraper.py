@@ -340,10 +340,12 @@ class DiscordScraper(object):
             # Create a new DiscordWebhook object
             webhook = DiscordWebhook(url=self.discordWebhook)
 
-            # Create a new DiscordEmbed object
             timestamp = message.get('timestamp')
-            timestamp = datetime.strptime(timestamp, '%H:%M:%S %d-%m-%Y')
+            # Convert timestamp to datetime object
+            timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%S.%fZ')
+            timestamp = timestamp['hour'] + ':' + timestamp['minute'] + ':' + timestamp['second']
 
+            # Create a new DiscordEmbed object
             embed = DiscordEmbed(title=timestamp, description=content, color=0x00ff00)
 
             author_id = message.get('author').get('id')
