@@ -342,7 +342,12 @@ class DiscordScraper(object):
 
             # Create a new DiscordEmbed object
             embed = DiscordEmbed(title=message.get('channel_id'), description=content, color=0x00ff00)
-            embed.set_author(name=message.get('author').get('username'), icon_url=message.get('author').get('avatar'))
+
+            author_id = message.get('author').get('id')
+            avatar_id = message.get('author').get('avatar')
+            icon_url = 'https://cdn.discordapp.com/avatars/{0}/{1}.png'.format(author_id, avatar_id)
+
+            embed.set_author(name=message.get('author').get('username'), icon_url=icon_url)
 
             webhook.add_embed(embed)
 
